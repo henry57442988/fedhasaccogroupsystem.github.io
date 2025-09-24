@@ -1,0 +1,3589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FEDHA SACCO GROUP SYSTEM</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            line-height: 1.6;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 50%, #16a085 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(39, 174, 96, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            z-index: 1;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #ffffff, #f8f9fa);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: #27ae60;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .auth-section {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .user-info {
+            display: none;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+        }
+
+        /* Navigation Styles */
+        .nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(39, 174, 96, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            padding: 1rem 0;
+        }
+
+        .nav-item {
+            margin: 0;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.2rem;
+            text-decoration: none;
+            color: #2c3e50;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .nav-link.active {
+            background: linear-gradient(45deg, #16a085, #27ae60);
+            color: white;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+            min-height: 70vh;
+            padding: 2rem 0;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards and Sections */
+        .section {
+            background: white;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-left: 5px solid #27ae60;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 0.5rem;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border-left: 5px solid #27ae60;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            color: #27ae60;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .card-content {
+            color: #34495e;
+            line-height: 1.6;
+        }
+
+        .highlight {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .table th,
+        .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .table th {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+            font-weight: 600;
+        }
+
+        .table tr:hover {
+            background: #f8f9fa;
+        }
+
+        /* Forms */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #27ae60;
+            box-shadow: 0 0 0 3px rgba(39, 174, 96, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 2rem;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #e74c3c;
+        }
+
+        /* Alert Styles */
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            border-color: #27ae60;
+            color: #155724;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            border-color: #e74c3c;
+            color: #721c24;
+        }
+
+        .alert-info {
+            background-color: #d1ecf1;
+            border-color: #3498db;
+            color: #0c5460;
+        }
+
+        .alert-warning {
+            background-color: #fff3cd;
+            border-color: #f39c12;
+            color: #856404;
+        }
+
+        /* Dashboard specific styles */
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #27ae60;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #34495e;
+            font-weight: 600;
+        }
+
+        /* Loan Calculator specific styles */
+        .calculator-input {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .loan-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .loan-type-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-left: 5px solid #27ae60;
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            color: #2ecc71;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: #bdc3c7;
+            text-decoration: none;
+            line-height: 1.6;
+        }
+
+        .footer-section a:hover {
+            color: #2ecc71;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: #34495e;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: #2ecc71;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #34495e;
+            padding-top: 1rem;
+            text-align: center;
+            color: #95a5a6;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #27ae60;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .logo-text {
+                font-size: 1.4rem;
+            }
+
+            .nav-list {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .loan-results {
+                grid-template-columns: 1fr;
+            }
+
+            .auth-section {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Hidden by default - shown only to admins */
+        .admin-only {
+            display: none;
+        }
+
+        .admin-only.show {
+            display: block;
+        }
+
+        /* Profile picture styles */
+        .profile-picture {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #27ae60;
+            margin-bottom: 1rem;
+        }
+
+        .profile-upload {
+            margin: 1rem 0;
+        }
+
+        /* Success/Error states */
+        .success-state {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .error-state {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .warning-state {
+            color: #f39c12;
+            font-weight: bold;
+        }
+
+        /* Post styles for news, careers, tenders */
+        .post-card {
+            background: white;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-left: 5px solid #27ae60;
+        }
+
+        .post-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .post-meta {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .post-content {
+            color: #34495e;
+            line-height: 1.6;
+        }
+
+        /* File upload styles */
+        .file-upload {
+            border: 2px dashed #27ae60;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .file-upload:hover {
+            background: rgba(39, 174, 96, 0.1);
+        }
+
+        .file-upload.dragover {
+            background: rgba(39, 174, 96, 0.2);
+            border-color: #2ecc71;
+        }
+
+        /* Document list styles */
+        .document-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border: 1px solid #ecf0f1;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .document-item:hover {
+            background: #f8f9fa;
+            border-color: #27ae60;
+        }
+
+        .document-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .document-icon {
+            color: #27ae60;
+            font-size: 1.5rem;
+        }
+
+        /* Notification styles */
+        .notification-item {
+            padding: 1rem;
+            border-left: 4px solid #3498db;
+            background: white;
+            margin-bottom: 1rem;
+            border-radius: 0 8px 8px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .notification-item.unread {
+            border-left-color: #e74c3c;
+            background: #fff5f5;
+        }
+
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .notification-type {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .notification-time {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .notification-details {
+            color: #34495e;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-university"></i>
+                </div>
+                <div class="logo-text">FEDHA SACCO GROUP</div>
+            </div>
+            
+            <!-- Authentication Section -->
+            <div class="auth-section">
+                <!-- For non-logged-in users -->
+                <div id="authButtons">
+                    <a href="#" class="btn btn-primary" onclick="showModal('signUpModal')">
+                        <i class="fas fa-user-plus"></i> Sign Up
+                    </a>
+                    <a href="#" class="btn btn-secondary" onclick="showModal('loginModal')">
+                        <i class="fas fa-sign-in-alt"></i> Log In
+                    </a>
+                </div>
+
+                <!-- For logged-in users -->
+                <div class="user-info" id="userInfo">
+                    <span id="userName">Welcome, User</span>
+                    <a href="#" class="btn btn-secondary" onclick="handleLogout()">
+                        <i class="fas fa-sign-out-alt"></i> Log Out
+                    </a>
+                    <a href="#" class="btn btn-danger" onclick="handleSignOut()">
+                        <i class="fas fa-user-times"></i> Sign Out
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-content">
+            <ul class="nav-list" id="navList">
+                <!-- Navigation items will be populated by JavaScript -->
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Home Tab -->
+        <div id="home-tab" class="tab-content active">
+            <section class="section">
+                <h1 class="section-title">Welcome to Fedha SACCO Group</h1>
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="card-title">About Our Organization</h3>
+                        <p class="card-content">
+                            Fedha SACCO Group is an organisation formed by adults for the purpose of 
+                            saving money and giving loans to members. We are committed to fostering 
+                            financial growth and security for our community.
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h3 class="card-title">Membership Eligibility</h3>
+                        <p class="card-content">
+                            Eligible members are adults aged <span class="highlight">18 to 59 years</span> 
+                            who intend to start or improve their personal business ventures. Join us 
+                            today and become part of our growing financial community.
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <h3 class="card-title">Registration & Contributions</h3>
+                        <p class="card-content">
+                            For one to become a member of the group, a non-refundable registration fee of 
+                            <span class="highlight">Kshs 1,000</span> must be paid. Every member is required 
+                            to contribute a minimum amount of <span class="highlight">Kshs 500</span> every 
+                            month as shares contribution.
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-hand-holding-usd"></i>
+                        </div>
+                        <h3 class="card-title">Loan Opportunities</h3>
+                        <p class="card-content">
+                            When a member contributes for at least <span class="highlight">six consecutive months</span>, 
+                            he or she is eligible for a loan. We offer various loan types including Emergency, 
+                            Short, Normal, and Development loans with competitive interest rates.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- About Us Tab -->
+        <div id="about-tab" class="tab-content">
+            <section class="section">
+                <h1 class="section-title">About Fedha SACCO Group</h1>
+                
+                <div class="cards-grid">
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-bullseye"></i>
+                        </div>
+                        <h3 class="card-title">Our Mission</h3>
+                        <p class="card-content">
+                            To provide accessible financial services that empower our members to achieve their 
+                            business goals and improve their livelihoods through collective savings and strategic lending.
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <h3 class="card-title">Our Vision</h3>
+                        <p class="card-content">
+                            To be the leading SACCO in empowering entrepreneurs and small business owners 
+                            through innovative financial solutions and community-driven growth.
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3 class="card-title">Our Values</h3>
+                        <p class="card-content">
+                            <strong>Integrity:</strong> We conduct our business with honesty and transparency.<br>
+                            <strong>Community:</strong> We believe in the power of collective growth.<br>
+                            <strong>Innovation:</strong> We embrace modern solutions for traditional banking.<br>
+                            <strong>Excellence:</strong> We strive for exceptional service delivery.
+                        </p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="card-title">Our Impact</h3>
+                        <p class="card-content">
+                            Since our establishment, we have empowered hundreds of entrepreneurs with over 
+                            <span class="highlight">KSh 50 Million</span> in loans, helping create sustainable 
+                            businesses and improving livelihoods in our community.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">How We Work</h2>
+                    <div class="card-content">
+                        <p>Fedha SACCO Group operates on the principle of collective savings and mutual benefit. Here's how our model works:</p>
+                        
+                        <h4 style="margin-top: 2rem; color: #27ae60;">1. Membership & Registration</h4>
+                        <p>Adults aged 18-59 years can join by paying a one-time registration fee of KSh 1,000. This gives you access to all our services and benefits.</p>
+                        
+                        <h4 style="margin-top: 2rem; color: #27ae60;">2. Monthly Contributions</h4>
+                        <p>Members contribute a minimum of KSh 500 monthly as share contributions. These shares form the foundation of your financial growth with us.</p>
+                        
+                        <h4 style="margin-top: 2rem; color: #27ae60;">3. Loan Eligibility</h4>
+                        <p>After six consecutive months of contributions, members become eligible for loans ranging from 1x to 5x their total shares, depending on the loan type.</p>
+                        
+                        <h4 style="margin-top: 2rem; color: #27ae60;">4. Guarantorship System</h4>
+                        <p>Our guarantorship system ensures loan security while building trust within our community. Members guarantee each other's loans, creating accountability.</p>
+                        
+                        <h4 style="margin-top: 2rem; color: #27ae60;">5. Annual Dividends</h4>
+                        <p>At year-end, 90% of our revenue (after 10% for operational expenses) is distributed as dividends to members based on their share contributions.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboard-tab" class="tab-content">
+            <section class="section">
+                <h1 class="section-title">Dashboard</h1>
+                <div id="dashboardContent">
+                    <!-- Content will be populated by JavaScript based on user role -->
+                </div>
+            </section>
+        </div>
+
+        <!-- Membership Tab -->
+        <div id="membership-tab" class="tab-content">
+            <section class="section admin-only">
+                <h1 class="section-title">Member Management</h1>
+                <div id="membershipContent">
+                    <!-- Admin-only content for member management -->
+                </div>
+            </section>
+        </div>
+
+        <!-- Member Banking Portal Tab -->
+        <div id="banking-tab" class="tab-content">
+            <section class="section">
+                <h1 class="section-title">Member Banking Portal</h1>
+                <div id="bankingContent">
+                    <!-- Banking portal content -->
+                </div>
+            </section>
+        </div>
+
+        <!-- Loan Calculator Tab -->
+        <div id="calculator-tab" class="tab-content">
+            <section class="section">
+                <h1 class="section-title">Loan Calculator</h1>
+                <div class="calculator-input">
+                    <h3>Calculate Your Loan Eligibility</h3>
+                    <div id="calculatorPersonalized" style="display: none;">
+                        <p class="alert alert-info">
+                            <strong>Your Current Shares:</strong> KSh <span id="userShares">0</span><br>
+                            Here are the loans you qualify for based on your shares:
+                        </p>
+                    </div>
+                    <div id="calculatorPublic">
+                        <p>Enter a hypothetical shares amount to see loan eligibility:</p>
+                        <div class="form-group">
+                            <label for="sharesInput">Total Shares Amount (KSh):</label>
+                            <input type="number" id="sharesInput" placeholder="Enter amount in KSh" min="0">
+                        </div>
+                    </div>
+                </div>
+                <div id="loanResults" class="loan-results">
+                    <!-- Loan calculation results will be displayed here -->
+                </div>
+            </section>
+        </div>
+
+        <!-- News & Events Tab -->
+        <div id="news-tab" class="tab-content">
+            <section class="section">
+                <h1 class="section-title">News & Events</h1>
+                <div class="admin-only">
+                    <button class="btn btn-success" onclick="showModal('newsPostModal')">
+                        <i class="fas fa-plus"></i> Post News/Event
+                    </button>
+                </div>
+                <div id="newsContent">
+                    <!-- News posts will be displayed here -->
+                </div>
+            </section>
+        </div>
+
+        <!-- Downloads Tab -->
+        <div id="downloads-tab" class="tab-content">
+            <section class="section">
+                <h1 class="section-title">Downloads</h1>
+                <div class="admin-only">
+                    <button class="btn btn-success" onclick="showModal('documentUploadModal')">
+                        <i class="fas fa-upload"></i> Upload Document
+                    </button>
+                </div>
+                
+                <div class="section">
+                    <h3>Official Forms</h3>
+                    <div class="document-item">
+                        <div class="document-info">
+                            <i class="fas fa-file-pdf document-icon"></i>
+                            <span>Membership Registration Form</span>
+                        </div>
+                        <button class="btn btn-primary" onclick="generateMembershipForm()">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                    <div class="document-item">
+                        <div class="document-info">
+                            <i class="fas fa-file-pdf document-icon"></i>
+                            <span>Loan Application Form</span>
+                        </div>
+                        <button class="btn btn-primary" onclick="generateLoanForm()">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>SACCO Documents</h3>
+                    <div id="documentsContent">
+                        <!-- Uploaded documents will be displayed here -->
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Careers Tab -->
+        <div id="careers-tab" class="tab-content">
+            <section class="section">
+                <h1 class="section-title">Careers at Fedha SACCO</h1>
+                <div class="admin-only">
+                    <button class="btn btn-success" onclick="showModal('jobPostModal')">
+                        <i class="fas fa-plus"></i> Post Job Opportunity
+                    </button>
+                </div>
+                <div id="careersContent">
+                    <!-- Job postings will be displayed here -->
+                </div>
+            </section>
+        </div>
+
+        <!-- Tenders Tab -->
+        <div id="tenders-tab" class="tab-content">
+            <section class="section">
+                <h1 class="section-title">Tenders & Bidding Opportunities</h1>
+                <div class="admin-only">
+                    <button class="btn btn-success" onclick="showModal('tenderPostModal')">
+                        <i class="fas fa-plus"></i> Post Tender
+                    </button>
+                </div>
+                <div id="tendersContent">
+                    <!-- Tender postings will be displayed here -->
+                </div>
+            </section>
+        </div>
+
+        <!-- Contact Us Tab -->
+        <div id="contact-tab" class="tab-content">
+            <section class="section">
+                <h1 class="section-title">Contact Fedha SACCO Group</h1>
+                
+                <div class="form-grid">
+                    <div class="card">
+                        <h3 class="card-title">Our Contact Details</h3>
+                        <div id="contactInfo">
+                            <!-- Contact information will be loaded here -->
+                        </div>
+                        <div class="admin-only">
+                            <button class="btn btn-secondary" onclick="showModal('contactUpdateModal')">
+                                <i class="fas fa-edit"></i> Update Contact Details
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">Send us a Message</h3>
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <label for="contactName">Your Full Name:</label>
+                                <input type="text" id="contactName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contactEmail">Your Email Address:</label>
+                                <input type="email" id="contactEmail" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contactMessage">Your Message:</label>
+                                <textarea id="contactMessage" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-paper-plane"></i> Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Hidden Notification Hub (Admin Only) -->
+        <div id="notifications-tab" class="tab-content admin-only">
+            <section class="section">
+                <h1 class="section-title">System Notification Hub</h1>
+                <div style="margin-bottom: 2rem;">
+                    <button class="btn btn-secondary" onclick="markAllNotificationsAsRead()">
+                        <i class="fas fa-check-double"></i> Mark All as Read
+                    </button>
+                </div>
+                <div id="notificationsContent">
+                    <!-- Notifications will be displayed here -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Our Mission</h3>
+                    <p>To provide accessible financial services that empower our members to achieve their business goals and improve their livelihoods through collective savings and strategic lending.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <p><a href="#" onclick="switchTab('calculator', event)">Loan Calculator</a></p>
+                    <p><a href="#" onclick="switchTab('contact', event)">Contact Us</a></p>
+                    <p><a href="#" onclick="switchTab('downloads', event)">Downloads</a></p>
+                    <p><a href="#" onclick="switchTab('careers', event)">Careers</a></p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Connect With Us</h3>
+                    <p>Follow us on social media for updates and announcements</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Fedha SACCO Group. All rights reserved. | Developed by Henry Odhiambo</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            <h2>Member Login</h2>
+            <div id="loginAlert"></div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginUsername">Username or Membership ID:</label>
+                    <input type="text" id="loginUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password:</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-sign-in-alt"></i> Log In
+                </button>
+                <div style="text-align: center; margin-top: 1rem;">
+                    <a href="#" onclick="showForgotPassword()" style="color: #27ae60;">Forgot Password?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sign Up Modal -->
+    <div id="signUpModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('signUpModal')">&times;</span>
+            <h2>Member Registration</h2>
+            <div id="signUpAlert"></div>
+            <form id="signUpForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name:</label>
+                    <input type="text" id="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="dateOfBirth">Date of Birth:</label>
+                    <input type="date" id="dateOfBirth" required>
+                </div>
+                <div class="form-group">
+                    <label for="phoneNumber">Phone Number:</label>
+                    <input type="tel" id="phoneNumber" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address:</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="nationalId">National ID Number:</label>
+                    <input type="text" id="nationalId" required>
+                </div>
+                <div class="form-group">
+                    <label for="signUpPassword">Password:</label>
+                    <input type="password" id="signUpPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password:</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginType">Login Type:</label>
+                    <select id="loginType">
+                        <option value="Member">Member</option>
+                        <option value="Web Master">Web Master</option>
+                    </select>
+                </div>
+                <div class="form-group" id="webMasterPasswordGroup" style="display: none;">
+                    <label for="webMasterPassword">Web Master Password:</label>
+                    <input type="password" id="webMasterPassword">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-user-plus"></i> Register
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- M-Pesa Payment Modal -->
+    <div id="mpesaModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('mpesaModal')">&times;</span>
+            <h2>M-Pesa Payment</h2>
+            <div id="mpesaAlert"></div>
+            <div class="loading" id="mpesaLoading">
+                <div class="spinner"></div>
+                <p>Processing M-Pesa payment...</p>
+            </div>
+            <div id="mpesaContent">
+                <div class="alert alert-info">
+                    <strong>Payment Required</strong><br>
+                    Amount: KSh <span id="mpesaAmount">1,000</span><br>
+                    Purpose: <span id="mpesaPurpose">Registration Fee</span><br>
+                    Please complete the M-Pesa payment to proceed.
+                </div>
+                <div class="form-group">
+                    <label for="mpesaPhone">M-Pesa Phone Number:</label>
+                    <input type="tel" id="mpesaPhone" required>
+                </div>
+                <button type="button" class="btn btn-primary" onclick="processMpesaPayment()" style="width: 100%;">
+                    <i class="fas fa-mobile-alt"></i> Pay with M-Pesa
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div id="forgotPasswordModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('forgotPasswordModal')">&times;</span>
+            <h2>Reset Password</h2>
+            <div id="forgotPasswordAlert"></div>
+            <form id="forgotPasswordForm">
+                <div class="form-group">
+                    <label for="resetPhone">Phone Number:</label>
+                    <input type="tel" id="resetPhone" required>
+                </div>
+                <div class="form-group">
+                    <label for="resetEmail">Email Address:</label>
+                    <input type="email" id="resetEmail" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    Send Reset Codes
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- News/Event Post Modal -->
+    <div id="newsPostModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('newsPostModal')">&times;</span>
+            <h2>Post News/Event</h2>
+            <div id="newsPostAlert"></div>
+            <form id="newsPostForm">
+                <div class="form-group">
+                    <label for="newsTitle">Title:</label>
+                    <input type="text" id="newsTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="newsContent">Content:</label>
+                    <textarea id="newsContent" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-success" style="width: 100%;">
+                    <i class="fas fa-newspaper"></i> Publish Post
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Document Upload Modal -->
+    <div id="documentUploadModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('documentUploadModal')">&times;</span>
+            <h2>Upload Document</h2>
+            <div id="documentUploadAlert"></div>
+            <form id="documentUploadForm">
+                <div class="form-group">
+                    <label for="documentTitle">Document Title:</label>
+                    <input type="text" id="documentTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="documentFile">Select File:</label>
+                    <div class="file-upload" onclick="document.getElementById('documentFile').click()">
+                        <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: #27ae60; margin-bottom: 1rem;"></i>
+                        <p>Click to select file or drag and drop</p>
+                        <input type="file" id="documentFile" style="display: none;" accept=".pdf,.doc,.docx,.txt">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success" style="width: 100%;">
+                    <i class="fas fa-upload"></i> Upload Document
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Job Post Modal -->
+    <div id="jobPostModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('jobPostModal')">&times;</span>
+            <h2>Post Job Opportunity</h2>
+            <div id="jobPostAlert"></div>
+            <form id="jobPostForm">
+                <div class="form-group">
+                    <label for="jobTitle">Job Title:</label>
+                    <input type="text" id="jobTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="jobDescription">Job Description:</label>
+                    <textarea id="jobDescription" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="applicationDeadline">Application Deadline:</label>
+                    <input type="date" id="applicationDeadline" required>
+                </div>
+                <button type="submit" class="btn btn-success" style="width: 100%;">
+                    <i class="fas fa-briefcase"></i> Publish Job Post
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tender Post Modal -->
+    <div id="tenderPostModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('tenderPostModal')">&times;</span>
+            <h2>Post Tender</h2>
+            <div id="tenderPostAlert"></div>
+            <form id="tenderPostForm">
+                <div class="form-group">
+                    <label for="tenderTitle">Tender Title:</label>
+                    <input type="text" id="tenderTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="tenderDescription">Description:</label>
+                    <textarea id="tenderDescription" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="submissionDeadline">Submission Deadline:</label>
+                    <input type="date" id="submissionDeadline" required>
+                </div>
+                <button type="submit" class="btn btn-success" style="width: 100%;">
+                    <i class="fas fa-file-contract"></i> Publish Tender
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Contact Update Modal -->
+    <div id="contactUpdateModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('contactUpdateModal')">&times;</span>
+            <h2>Update Contact Information</h2>
+            <div id="contactUpdateAlert"></div>
+            <form id="contactUpdateForm">
+                <div class="form-group">
+                    <label for="physicalAddress">Physical Address:</label>
+                    <textarea id="physicalAddress" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="phoneContact">Phone Number:</label>
+                    <input type="tel" id="phoneContact" required>
+                </div>
+                <div class="form-group">
+                    <label for="emailContact">Email Address:</label>
+                    <input type="email" id="emailContact" required>
+                </div>
+                <button type="submit" class="btn btn-success" style="width: 100%;">
+                    <i class="fas fa-save"></i> Save Changes
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loan Application Modal -->
+    <div id="loanApplicationModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loanApplicationModal')">&times;</span>
+            <h2>Loan Application</h2>
+            <div id="loanApplicationAlert"></div>
+            <form id="loanApplicationForm">
+                <div class="form-group">
+                    <label for="loanType">Loan Type:</label>
+                    <select id="loanType" required>
+                        <option value="">Select Loan Type</option>
+                        <option value="Emergency">Emergency Loan (1x shares, 0.3% monthly)</option>
+                        <option value="Short">Short Loan (2x shares, 0.6% monthly)</option>
+                        <option value="Normal">Normal Loan (3x shares, 1.0% monthly)</option>
+                        <option value="Development">Development Loan (5x shares, 1.4% monthly)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="loanAmount">Desired Loan Amount (KSh):</label>
+                    <input type="number" id="loanAmount" required min="1000">
+                </div>
+                <div class="form-group">
+                    <label for="loanPurpose">Loan Purpose:</label>
+                    <textarea id="loanPurpose" required placeholder="Describe how you plan to use this loan"></textarea>
+                </div>
+                <div id="loanSummary" class="alert alert-info" style="display: none;">
+                    <!-- Loan calculation summary will be displayed here -->
+                </div>
+                <button type="submit" class="btn btn-success" style="width: 100%;">
+                    <i class="fas fa-paper-plane"></i> Submit Application
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('paymentModal')">&times;</span>
+            <h2>Make Payment</h2>
+            <div id="paymentAlert"></div>
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label for="paymentType">Payment Type:</label>
+                    <select id="paymentType" required>
+                        <option value="">Select Payment Type</option>
+                        <option value="shares">Shares Contribution</option>
+                        <option value="loan_principal">Loan Repayment (Principal)</option>
+                        <option value="loan_interest">Loan Repayment (Interest)</option>
+                        <option value="full_settlement">Full Loan Settlement</option>
+                        <option value="fixed_deposit">Fixed Deposit</option>
+                        <option value="guarantor_repayment">Guarantor's Repayment</option>
+                        <option value="application_fee">Loan Application Fee</option>
+                        <option value="late_payment_fee">Late Payment Fee</option>
+                        <option value="membership_update_fee">Membership Update Fee</option>
+                        <option value="agm_fee">Annual General Meeting (AGM) Fee</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="paymentAmount">Amount (KSh):</label>
+                    <input type="number" id="paymentAmount" required min="1">
+                </div>
+                <div class="form-group">
+                    <label for="paymentPhone">M-Pesa Phone Number:</label>
+                    <input type="tel" id="paymentPhone" required>
+                </div>
+                <button type="submit" class="btn btn-success" style="width: 100%;">
+                    <i class="fas fa-credit-card"></i> Proceed to Payment
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Member Details Modal -->
+    <div id="memberDetailsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('memberDetailsModal')">&times;</span>
+            <h2>Member Details</h2>
+            <div id="memberDetailsContent">
+                <!-- Member details will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global application state
+        let currentUser = null;
+        let appState = {
+            users: JSON.parse(localStorage.getItem('fedhaUsers') || '[]'),
+            shares: JSON.parse(localStorage.getItem('fedhaShares') || '[]'),
+            loans: JSON.parse(localStorage.getItem('fedhaLoans') || '[]'),
+            fixedDeposits: JSON.parse(localStorage.getItem('fedhaFixedDeposits') || '[]'),
+            guarantors: JSON.parse(localStorage.getItem('fedhaGuarantors') || '[]'),
+            newsEvents: JSON.parse(localStorage.getItem('fedhaNewsEvents') || '[]'),
+            documents: JSON.parse(localStorage.getItem('fedhaDocuments') || '[]'),
+            careers: JSON.parse(localStorage.getItem('fedhaCareers') || '[]'),
+            tenders: JSON.parse(localStorage.getItem('fedhaTenders') || '[]'),
+            contactInfo: JSON.parse(localStorage.getItem('fedhaContactInfo') || '{"physicalAddress":"123 Main Street, Nairobi, Kenya","phoneNumber":"+254-700-123456","emailAddress":"info@fedhasacco.co.ke"}'),
+            notifications: JSON.parse(localStorage.getItem('fedhaNotifications') || '[]')
+        };
+
+        // Loan type definitions
+        const loanTypes = {
+            Emergency: { multiplier: 1, rate: 0.003, periodMonths: 12, name: "Emergency Loan" },
+            Short: { multiplier: 2, rate: 0.006, periodMonths: 24, name: "Short Loan" },
+            Normal: { multiplier: 3, rate: 0.01, periodMonths: 36, name: "Normal Loan" },
+            Development: { multiplier: 5, rate: 0.014, periodMonths: 48, name: "Development Loan" }
+        };
+
+        // Initialize application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            checkUserSession();
+            renderNavigation();
+            setupEventListeners();
+            loadTabContent();
+            
+            // Initialize contact info if not exists
+            if (!appState.contactInfo.physicalAddress) {
+                appState.contactInfo = {
+                    physicalAddress: "123 Main Street, Nairobi, Kenya",
+                    phoneNumber: "+254-700-123456",
+                    emailAddress: "info@fedhasacco.co.ke"
+                };
+                saveToStorage('fedhaContactInfo', appState.contactInfo);
+            }
+        }
+
+        // User session management
+        function checkUserSession() {
+            const sessionUser = localStorage.getItem('currentUser');
+            if (sessionUser) {
+                currentUser = JSON.parse(sessionUser);
+                updateUIForLoggedInUser();
+            }
+        }
+
+        function updateUIForLoggedInUser() {
+            const authButtons = document.getElementById('authButtons');
+            const userInfo = document.getElementById('userInfo');
+            const userName = document.getElementById('userName');
+
+            authButtons.style.display = 'none';
+            userInfo.style.display = 'flex';
+            userName.textContent = `Welcome, ${currentUser.fullName || currentUser.username}`;
+
+            // Show admin-only elements if user is admin
+            if (currentUser.role === 'Admin' || currentUser.role === 'Web Master') {
+                document.querySelectorAll('.admin-only').forEach(el => {
+                    el.classList.add('show');
+                });
+            }
+        }
+
+        // Navigation management
+        function renderNavigation() {
+            const navList = document.getElementById('navList');
+            let navItems = [];
+
+            if (currentUser) {
+                // Logged in user navigation
+                navItems = [
+                    { id: 'home', text: 'Home', icon: 'fas fa-home' },
+                    { id: 'about', text: 'About Us', icon: 'fas fa-info-circle' },
+                    { id: 'dashboard', text: 'Dashboard', icon: 'fas fa-tachometer-alt' },
+                    { id: 'banking', text: 'Member Banking Portal', icon: 'fas fa-university' },
+                    { id: 'calculator', text: 'Loan Calculator', icon: 'fas fa-calculator' },
+                    { id: 'news', text: 'News & Events', icon: 'fas fa-newspaper' },
+                    { id: 'downloads', text: 'Downloads', icon: 'fas fa-download' },
+                    { id: 'careers', text: 'Careers', icon: 'fas fa-briefcase' },
+                    { id: 'tenders', text: 'Tenders', icon: 'fas fa-file-contract' },
+                    { id: 'contact', text: 'Contact Us', icon: 'fas fa-envelope' }
+                ];
+
+                // Add admin-specific navigation
+                if (currentUser.role === 'Admin' || currentUser.role === 'Web Master') {
+                    navItems.splice(3, 0, { id: 'membership', text: 'Membership', icon: 'fas fa-users' });
+                    navItems.push({ id: 'notifications', text: 'Notifications', icon: 'fas fa-bell' });
+                }
+            } else {
+                // Public navigation
+                navItems = [
+                    { id: 'home', text: 'Home', icon: 'fas fa-home' },
+                    { id: 'about', text: 'About Us', icon: 'fas fa-info-circle' },
+                    { id: 'calculator', text: 'Loan Calculator', icon: 'fas fa-calculator' },
+                    { id: 'news', text: 'News & Events', icon: 'fas fa-newspaper' },
+                    { id: 'downloads', text: 'Downloads', icon: 'fas fa-download' },
+                    { id: 'careers', text: 'Careers', icon: 'fas fa-briefcase' },
+                    { id: 'tenders', text: 'Tenders', icon: 'fas fa-file-contract' },
+                    { id: 'contact', text: 'Contact Us', icon: 'fas fa-envelope' }
+                ];
+            }
+
+            navList.innerHTML = navItems.map(item => `
+                <li class="nav-item">
+                    <a href="#" class="nav-link ${item.id === 'home' ? 'active' : ''}" onclick="switchTab('${item.id}', event)">
+                        <i class="${item.icon}"></i>
+                        ${item.text}
+                    </a>
+                </li>
+            `).join('');
+        }
+
+        // Tab switching
+        function switchTab(tabId, event) {
+            // Update active navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Safely add active class to clicked navigation link
+            if (event && event.target) {
+                const navLink = event.target.closest('.nav-link');
+                if (navLink) {
+                    navLink.classList.add('active');
+                }
+            } else {
+                // If no event, find the nav link that corresponds to this tabId
+                const targetNavLink = document.querySelector(`[onclick*="switchTab('${tabId}'"]`);
+                if (targetNavLink) {
+                    targetNavLink.classList.add('active');
+                }
+            }
+
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(`${tabId}-tab`).classList.add('active');
+
+            // Load tab-specific content
+            loadTabContent(tabId);
+        }
+
+        // Load content for specific tabs
+        function loadTabContent(tabId = 'home') {
+            switch(tabId) {
+                case 'dashboard':
+                    renderDashboard();
+                    break;
+                case 'membership':
+                    renderMembership();
+                    break;
+                case 'banking':
+                    renderBankingPortal();
+                    break;
+                case 'calculator':
+                    renderLoanCalculator();
+                    break;
+                case 'news':
+                    renderNewsEvents();
+                    break;
+                case 'downloads':
+                    renderDownloads();
+                    break;
+                case 'careers':
+                    renderCareers();
+                    break;
+                case 'tenders':
+                    renderTenders();
+                    break;
+                case 'contact':
+                    renderContact();
+                    break;
+                case 'notifications':
+                    renderNotifications();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        // Dashboard rendering
+        function renderDashboard() {
+            const dashboardContent = document.getElementById('dashboardContent');
+            
+            if (!currentUser) {
+                dashboardContent.innerHTML = `
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Please log in to access your dashboard.
+                    </div>
+                `;
+                return;
+            }
+
+            if (currentUser.role === 'Admin' || currentUser.role === 'Web Master') {
+                renderAdminDashboard();
+            } else {
+                renderMemberDashboard();
+            }
+        }
+
+        function renderMemberDashboard() {
+            const memberShares = appState.shares.filter(share => share.memberId === currentUser.id);
+            const memberLoans = appState.loans.filter(loan => loan.memberId === currentUser.id);
+            const memberGuarantees = appState.guarantors.filter(g => g.memberId === currentUser.id);
+            
+            const totalShares = memberShares.reduce((sum, share) => sum + share.amount, 0);
+            const outstandingLoanBalance = memberLoans.reduce((sum, loan) => sum + loan.outstandingBalance, 0);
+            const dividendsEarned = calculateDividends(currentUser.id);
+
+            document.getElementById('dashboardContent').innerHTML = `
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    Welcome to your personal dashboard. Here you can view your financial summary and account status.
+                </div>
+
+                ${!currentUser.profilePictureUrl ? `
+                    <div class="alert alert-warning">
+                        <i class="fas fa-camera"></i>
+                        Please upload your official profile picture to complete your profile.
+                        <button class="btn btn-secondary" onclick="uploadProfilePicture()" style="margin-left: 1rem;">
+                            <i class="fas fa-upload"></i> Upload Picture
+                        </button>
+                    </div>
+                ` : ''}
+
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-value">KSh ${totalShares.toLocaleString()}</div>
+                        <div class="stat-label">Total Shares</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">KSh ${outstandingLoanBalance.toLocaleString()}</div>
+                        <div class="stat-label">Outstanding Loans</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">KSh ${dividendsEarned.toLocaleString()}</div>
+                        <div class="stat-label">Dividends Earned</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${checkLoanEligibility(currentUser.id) ? 'Eligible' : 'Not Eligible'}</div>
+                        <div class="stat-label">Loan Status</div>
+                    </div>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3 class="card-title">My Loans</h3>
+                        ${memberLoans.length > 0 ? `
+                            <div class="table-container">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Type</th>
+                                            <th>Amount</th>
+                                            <th>Balance</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${memberLoans.map(loan => `
+                                            <tr>
+                                                <td>${loan.type}</td>
+                                                <td>KSh ${loan.amount.toLocaleString()}</td>
+                                                <td>KSh ${loan.outstandingBalance.toLocaleString()}</td>
+                                                <td>${loan.status}</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        ` : '<p>No loans taken yet.</p>'}
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">Loans I've Guaranteed</h3>
+                        ${memberGuarantees.length > 0 ? `
+                            <div class="table-container">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Borrower</th>
+                                            <th>Amount</th>
+                                            <th>Guaranteed</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${memberGuarantees.map(guarantee => {
+                                            const loan = appState.loans.find(l => l.id === guarantee.loanId);
+                                            const borrower = appState.users.find(u => u.id === loan?.memberId);
+                                            return `
+                                                <tr>
+                                                    <td>${borrower?.fullName || 'Unknown'}</td>
+                                                    <td>KSh ${loan?.amount.toLocaleString() || '0'}</td>
+                                                    <td>KSh ${guarantee.guaranteedAmount.toLocaleString()}</td>
+                                                    <td>${loan?.status || 'Unknown'}</td>
+                                                </tr>
+                                            `;
+                                        }).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        ` : '<p>No guaranteed loans yet.</p>'}
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Quick Actions</h3>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <button class="btn btn-primary" onclick="switchTab('banking', event)">
+                            <i class="fas fa-university"></i> Banking Portal
+                        </button>
+                        <button class="btn btn-success" onclick="showModal('paymentModal')">
+                            <i class="fas fa-credit-card"></i> Make Payment
+                        </button>
+                        <button class="btn btn-info" onclick="showModal('loanApplicationModal')">
+                            <i class="fas fa-hand-holding-usd"></i> Apply for Loan
+                        </button>
+                        <button class="btn btn-secondary" onclick="switchTab('calculator', event)">
+                            <i class="fas fa-calculator"></i> Loan Calculator
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderAdminDashboard() {
+            const totalUsers = appState.users.length;
+            const totalRegFees = appState.users.filter(u => u.registrationFeePaid).length * 1000;
+            const totalShares = appState.shares.reduce((sum, share) => sum + share.amount, 0);
+            const totalLoans = appState.loans.reduce((sum, loan) => sum + loan.amount, 0);
+            const totalFixedDeposits = appState.fixedDeposits.reduce((sum, fd) => sum + fd.amount, 0);
+
+            document.getElementById('dashboardContent').innerHTML = `
+                <div class="alert alert-success">
+                    <i class="fas fa-crown"></i>
+                    Welcome to the Admin Dashboard. You have full access to system management functions.
+                </div>
+
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-value">${totalUsers}</div>
+                        <div class="stat-label">Total Members</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">KSh ${totalRegFees.toLocaleString()}</div>
+                        <div class="stat-label">Registration Fees</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">KSh ${totalShares.toLocaleString()}</div>
+                        <div class="stat-label">Total Shares</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">KSh ${totalLoans.toLocaleString()}</div>
+                        <div class="stat-label">Total Loans</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">KSh ${totalFixedDeposits.toLocaleString()}</div>
+                        <div class="stat-label">Fixed Deposits</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${appState.notifications.filter(n => !n.isRead).length}</div>
+                        <div class="stat-label">Unread Notifications</div>
+                    </div>
+                </div>
+
+                ${currentUser.role === 'Web Master' ? `
+                    <div class="section">
+                        <h3>Web Master Controls</h3>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <button class="btn btn-primary" onclick="showPromoteMemberModal()">
+                                <i class="fas fa-user-cog"></i> Promote Member to Admin
+                            </button>
+                            <button class="btn btn-warning" onclick="showDemoteAdminModal()">
+                                <i class="fas fa-user-minus"></i> Demote Admin
+                            </button>
+                            <button class="btn btn-info" onclick="generateSystemReport()">
+                                <i class="fas fa-chart-bar"></i> Generate System Report
+                            </button>
+                        </div>
+                    </div>
+                ` : ''}
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3 class="card-title">Recent Member Activity</h3>
+                        <div id="recentActivity">
+                            ${getRecentActivity()}
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">System Statistics</h3>
+                        <p><strong>Active Members:</strong> ${appState.users.filter(u => u.isActive).length}</p>
+                        <p><strong>Pending Loans:</strong> ${appState.loans.filter(l => l.status === 'Pending').length}</p>
+                        <p><strong>This Month's Payments:</strong> KSh ${getThisMonthPayments().toLocaleString()}</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>Quick Admin Actions</h3>
+                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                        <button class="btn btn-primary" onclick="switchTab('membership', event)">
+                            <i class="fas fa-users"></i> Manage Members
+                        </button>
+                        <button class="btn btn-success" onclick="switchTab('notifications', event)">
+                            <i class="fas fa-bell"></i> View Notifications
+                        </button>
+                        <button class="btn btn-info" onclick="generateMemberReport()">
+                            <i class="fas fa-file-alt"></i> Generate Reports
+                        </button>
+                        <button class="btn btn-warning" onclick="backupSystemData()">
+                            <i class="fas fa-database"></i> Backup Data
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Membership management (Admin only)
+        function renderMembership() {
+            if (!currentUser || (currentUser.role !== 'Admin' && currentUser.role !== 'Web Master')) {
+                return;
+            }
+
+            const membershipContent = document.getElementById('membershipContent');
+            
+            membershipContent.innerHTML = `
+                <div class="section">
+                    <div style="display: flex; justify-content: between; align-items: center; margin-bottom: 2rem;">
+                        <h3>Member List</h3>
+                        <input type="text" id="memberSearch" placeholder="Search members..." 
+                               style="padding: 0.5rem; border-radius: 5px; border: 1px solid #ddd;">
+                    </div>
+                    
+                    <div class="table-container">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Member ID</th>
+                                    <th>Phone</th>
+                                    <th>Registration Fee</th>
+                                    <th>Total Shares</th>
+                                    <th>Loan Eligibility</th>
+                                    <th>Role</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="membersTableBody">
+                                ${renderMembersTable()}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+
+            // Setup search functionality
+            document.getElementById('memberSearch').addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const filteredMembers = appState.users.filter(user => 
+                    user.fullName.toLowerCase().includes(searchTerm) ||
+                    user.email.toLowerCase().includes(searchTerm) ||
+                    user.phoneNumber.includes(searchTerm)
+                );
+                document.getElementById('membersTableBody').innerHTML = renderMembersTable(filteredMembers);
+            });
+        }
+
+        function renderMembersTable(members = appState.users) {
+            return members.map(member => {
+                const memberShares = appState.shares.filter(s => s.memberId === member.id);
+                const totalShares = memberShares.reduce((sum, share) => sum + share.amount, 0);
+                const isEligible = checkLoanEligibility(member.id);
+                
+                return `
+                    <tr>
+                        <td>${member.fullName}</td>
+                        <td>${member.id}</td>
+                        <td>${member.phoneNumber}</td>
+                        <td><span class="${member.registrationFeePaid ? 'success-state' : 'error-state'}">
+                            ${member.registrationFeePaid ? 'Paid' : 'Pending'}
+                        </span></td>
+                        <td>KSh ${totalShares.toLocaleString()}</td>
+                        <td><span class="${isEligible ? 'success-state' : 'warning-state'}">
+                            ${isEligible ? 'Eligible' : 'Not Eligible'}
+                        </span></td>
+                        <td>${member.role || 'Member'}</td>
+                        <td>
+                            <button class="btn btn-primary" onclick="viewMemberDetails('${member.id}')">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            ${currentUser.role === 'Web Master' ? `
+                                <button class="btn btn-warning" onclick="promoteMember('${member.id}')">
+                                    <i class="fas fa-user-cog"></i> Promote
+                                </button>
+                            ` : ''}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Banking Portal
+        function renderBankingPortal() {
+            if (!currentUser) {
+                document.getElementById('bankingContent').innerHTML = `
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Please log in to access the banking portal.
+                    </div>
+                `;
+                return;
+            }
+
+            const memberShares = appState.shares.filter(s => s.memberId === currentUser.id);
+            const memberLoans = appState.loans.filter(l => l.memberId === currentUser.id);
+            const memberDeposits = appState.fixedDeposits.filter(fd => fd.memberId === currentUser.id);
+            const memberGuarantees = appState.guarantors.filter(g => g.memberId === currentUser.id);
+
+            document.getElementById('bankingContent').innerHTML = `
+                <div class="section">
+                    <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+                        <button class="btn btn-success" onclick="showModal('paymentModal')">
+                            <i class="fas fa-credit-card"></i> Make Payment
+                        </button>
+                        <button class="btn btn-primary" onclick="showModal('loanApplicationModal')">
+                            <i class="fas fa-hand-holding-usd"></i> Apply for Loan
+                        </button>
+                        <button class="btn btn-info" onclick="downloadStatement()">
+                            <i class="fas fa-file-download"></i> Download Statement
+                        </button>
+                    </div>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3 class="card-title">Shares Contributions</h3>
+                        ${memberShares.length > 0 ? `
+                            <div class="table-container">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Amount</th>
+                                            <th>Running Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${memberShares.map((share, index) => {
+                                            const runningTotal = memberShares.slice(0, index + 1)
+                                                .reduce((sum, s) => sum + s.amount, 0);
+                                            return `
+                                                <tr>
+                                                    <td>${formatDate(share.date)}</td>
+                                                    <td>KSh ${share.amount.toLocaleString()}</td>
+                                                    <td>KSh ${runningTotal.toLocaleString()}</td>
+                                                </tr>
+                                            `;
+                                        }).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p><strong>Total Shares: KSh ${memberShares.reduce((sum, s) => sum + s.amount, 0).toLocaleString()}</strong></p>
+                        ` : '<p>No share contributions yet.</p>'}
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">My Loans</h3>
+                        ${memberLoans.length > 0 ? `
+                            <div class="table-container">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Type</th>
+                                            <th>Amount</th>
+                                            <th>Outstanding</th>
+                                            <th>Monthly Payment</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${memberLoans.map(loan => `
+                                            <tr>
+                                                <td>${loan.type}</td>
+                                                <td>KSh ${loan.amount.toLocaleString()}</td>
+                                                <td>KSh ${loan.outstandingBalance.toLocaleString()}</td>
+                                                <td>KSh ${loan.monthlyPayment.toLocaleString()}</td>
+                                                <td>${loan.status}</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        ` : '<p>No loans taken yet.</p>'}
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">Fixed Deposits</h3>
+                        ${memberDeposits.length > 0 ? `
+                            <div class="table-container">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Amount</th>
+                                            <th>Interest Rate</th>
+                                            <th>Maturity</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${memberDeposits.map(deposit => `
+                                            <tr>
+                                                <td>${formatDate(deposit.date)}</td>
+                                                <td>KSh ${deposit.amount.toLocaleString()}</td>
+                                                <td>0.6% monthly</td>
+                                                <td>${calculateMaturityDate(deposit.date)}</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        ` : '<p>No fixed deposits yet.</p>'}
+                    </div>
+
+                    <div class="card">
+                        <h3 class="card-title">Guaranteed Loans</h3>
+                        ${memberGuarantees.length > 0 ? `
+                            <div class="table-container">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Borrower</th>
+                                            <th>Loan Amount</th>
+                                            <th>Guaranteed Amount</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${memberGuarantees.map(guarantee => {
+                                            const loan = appState.loans.find(l => l.id === guarantee.loanId);
+                                            const borrower = appState.users.find(u => u.id === loan?.memberId);
+                                            return `
+                                                <tr>
+                                                    <td>${borrower?.fullName || 'Unknown'}</td>
+                                                    <td>KSh ${loan?.amount.toLocaleString() || '0'}</td>
+                                                    <td>KSh ${guarantee.guaranteedAmount.toLocaleString()}</td>
+                                                    <td>${loan?.status || 'Unknown'}</td>
+                                                </tr>
+                                            `;
+                                        }).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        ` : '<p>No guaranteed loans yet.</p>'}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Loan Calculator
+        function renderLoanCalculator() {
+            if (currentUser) {
+                const memberShares = appState.shares.filter(s => s.memberId === currentUser.id);
+                const totalShares = memberShares.reduce((sum, share) => sum + share.amount, 0);
+                
+                document.getElementById('calculatorPersonalized').style.display = 'block';
+                document.getElementById('calculatorPublic').style.display = 'none';
+                document.getElementById('userShares').textContent = totalShares.toLocaleString();
+                
+                calculateAndDisplayLoanDetails(totalShares);
+            } else {
+                document.getElementById('calculatorPersonalized').style.display = 'none';
+                document.getElementById('calculatorPublic').style.display = 'block';
+                
+                document.getElementById('sharesInput').addEventListener('input', function() {
+                    const sharesAmount = parseFloat(this.value) || 0;
+                    if (sharesAmount > 0) {
+                        calculateAndDisplayLoanDetails(sharesAmount);
+                    } else {
+                        document.getElementById('loanResults').innerHTML = '';
+                    }
+                });
+            }
+        }
+
+        function calculateAndDisplayLoanDetails(sharesAmount) {
+            const resultsContainer = document.getElementById('loanResults');
+            resultsContainer.innerHTML = '';
+
+            Object.entries(loanTypes).forEach(([key, loanType]) => {
+                const maxLoan = sharesAmount * loanType.multiplier;
+                const totalInterest = maxLoan * loanType.rate * loanType.periodMonths;
+                const totalRepayment = maxLoan + totalInterest;
+                const monthlyPayment = totalRepayment / loanType.periodMonths;
+
+                const loanCard = document.createElement('div');
+                loanCard.className = 'loan-type-card';
+                loanCard.innerHTML = `
+                    <h4 style="color: #27ae60; margin-bottom: 1rem;">${loanType.name}</h4>
+                    <p><strong>Maximum Loan:</strong> KSh ${maxLoan.toLocaleString()}</p>
+                    <p><strong>Monthly Payment:</strong> KSh ${monthlyPayment.toLocaleString()}</p>
+                    <p><strong>Interest Rate:</strong> ${(loanType.rate * 100).toFixed(1)}% per month</p>
+                    <p><strong>Repayment Period:</strong> ${loanType.periodMonths} months (${loanType.periodMonths/12} years)</p>
+                    <p><strong>Total Interest:</strong> KSh ${totalInterest.toLocaleString()}</p>
+                    <p><strong>Total Repayment:</strong> KSh ${totalRepayment.toLocaleString()}</p>
+                `;
+                resultsContainer.appendChild(loanCard);
+            });
+        }
+
+        // News & Events
+        function renderNewsEvents() {
+            const newsContent = document.getElementById('newsContent');
+            
+            if (appState.newsEvents.length === 0) {
+                newsContent.innerHTML = `
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        No news or events posted yet. Check back later for updates.
+                    </div>
+                `;
+                return;
+            }
+
+            const sortedNews = appState.newsEvents.sort((a, b) => new Date(b.datePublished) - new Date(a.datePublished));
+            
+            newsContent.innerHTML = sortedNews.map(post => `
+                <div class="post-card">
+                    <h3 class="post-title">${post.title}</h3>
+                    <div class="post-meta">
+                        <i class="fas fa-calendar"></i> Posted on ${formatDate(post.datePublished)}
+                        ${post.authorId ? ` by ${getUserName(post.authorId)}` : ''}
+                    </div>
+                    <div class="post-content">${post.content}</div>
+                </div>
+            `).join('');
+        }
+
+        // Downloads
+        function renderDownloads() {
+            const documentsContent = document.getElementById('documentsContent');
+            
+            if (appState.documents.length === 0) {
+                documentsContent.innerHTML = `
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        No additional documents available for download at this time.
+                    </div>
+                `;
+                return;
+            }
+
+            const sortedDocuments = appState.documents.sort((a, b) => new Date(b.dateUploaded) - new Date(a.dateUploaded));
+            
+            documentsContent.innerHTML = sortedDocuments.map(doc => `
+                <div class="document-item">
+                    <div class="document-info">
+                        <i class="fas fa-file-alt document-icon"></i>
+                        <div>
+                            <strong>${doc.title}</strong>
+                            <div style="font-size: 0.9rem; color: #7f8c8d;">
+                                Uploaded on ${formatDate(doc.dateUploaded)}
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="downloadDocument('${doc.id}')">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Careers
+        function renderCareers() {
+            const careersContent = document.getElementById('careersContent');
+            
+            if (appState.careers.length === 0) {
+                careersContent.innerHTML = `
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        No job opportunities available at this time. Please check back later.
+                    </div>
+                `;
+                return;
+            }
+
+            const sortedCareers = appState.careers.sort((a, b) => new Date(b.datePosted) - new Date(a.datePosted));
+            
+            careersContent.innerHTML = sortedCareers.map(job => `
+                <div class="post-card">
+                    <h3 class="post-title">${job.jobTitle}</h3>
+                    <div class="post-meta">
+                        <i class="fas fa-calendar"></i> Posted on ${formatDate(job.datePosted)} | 
+                        <i class="fas fa-clock"></i> Application Deadline: ${formatDate(job.applicationDeadline)}
+                    </div>
+                    <div class="post-content">${job.description}</div>
+                </div>
+            `).join('');
+        }
+
+        // Tenders
+        function renderTenders() {
+            const tendersContent = document.getElementById('tendersContent');
+            
+            if (appState.tenders.length === 0) {
+                tendersContent.innerHTML = `
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        No open tenders available at this time. Please check back later.
+                    </div>
+                `;
+                return;
+            }
+
+            const sortedTenders = appState.tenders.sort((a, b) => new Date(b.datePosted) - new Date(a.datePosted));
+            
+            tendersContent.innerHTML = sortedTenders.map(tender => `
+                <div class="post-card">
+                    <h3 class="post-title">${tender.tenderTitle}</h3>
+                    <div class="post-meta">
+                        <i class="fas fa-calendar"></i> Posted on ${formatDate(tender.datePosted)} | 
+                        <i class="fas fa-clock"></i> Submission Deadline: ${formatDate(tender.submissionDeadline)}
+                    </div>
+                    <div class="post-content">${tender.description}</div>
+                </div>
+            `).join('');
+        }
+
+        // Contact Us
+        function renderContact() {
+            document.getElementById('contactInfo').innerHTML = `
+                <p><i class="fas fa-map-marker-alt"></i> <strong>Physical Address:</strong><br>
+                ${appState.contactInfo.physicalAddress}</p>
+                <p><i class="fas fa-phone"></i> <strong>Phone Number:</strong><br>
+                ${appState.contactInfo.phoneNumber}</p>
+                <p><i class="fas fa-envelope"></i> <strong>Email Address:</strong><br>
+                ${appState.contactInfo.emailAddress}</p>
+            `;
+        }
+
+        // Notifications (Admin only)
+        function renderNotifications() {
+            if (!currentUser || (currentUser.role !== 'Admin' && currentUser.role !== 'Web Master')) {
+                return;
+            }
+
+            const notificationsContent = document.getElementById('notificationsContent');
+            
+            if (appState.notifications.length === 0) {
+                notificationsContent.innerHTML = `
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        No notifications yet.
+                    </div>
+                `;
+                return;
+            }
+
+            const sortedNotifications = appState.notifications.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
+            notificationsContent.innerHTML = sortedNotifications.map(notification => `
+                <div class="notification-item ${!notification.isRead ? 'unread' : ''}">
+                    <div class="notification-header">
+                        <span class="notification-type">${notification.eventType}</span>
+                        <span class="notification-time">${formatDate(notification.timestamp)}</span>
+                    </div>
+                    <div class="notification-details">${notification.details}</div>
+                    ${!notification.isRead ? `
+                        <button class="btn btn-secondary" onclick="markNotificationAsRead('${notification.id}')">
+                            <i class="fas fa-check"></i> Mark as Read
+                        </button>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        // Event Listeners Setup
+        function setupEventListeners() {
+            // Login form
+            document.getElementById('loginForm').addEventListener('submit', handleLoginSubmit);
+            
+            // Sign up form
+            document.getElementById('signUpForm').addEventListener('submit', handleSignUpSubmit);
+            document.getElementById('loginType').addEventListener('change', function() {
+                const webMasterGroup = document.getElementById('webMasterPasswordGroup');
+                webMasterGroup.style.display = this.value === 'Web Master' ? 'block' : 'none';
+            });
+
+            // Forgot password form
+            document.getElementById('forgotPasswordForm').addEventListener('submit', handleForgotPasswordSubmit);
+
+            // Contact form
+            document.getElementById('contactForm').addEventListener('submit', handleContactFormSubmit);
+
+            // News post form
+            document.getElementById('newsPostForm').addEventListener('submit', handleNewsPostSubmit);
+
+            // Document upload form
+            document.getElementById('documentUploadForm').addEventListener('submit', handleDocumentUploadSubmit);
+
+            // Job post form
+            document.getElementById('jobPostForm').addEventListener('submit', handleJobPostSubmit);
+
+            // Tender post form
+            document.getElementById('tenderPostForm').addEventListener('submit', handleTenderPostSubmit);
+
+            // Contact update form
+            document.getElementById('contactUpdateForm').addEventListener('submit', handleContactUpdateSubmit);
+
+            // Loan application form
+            document.getElementById('loanApplicationForm').addEventListener('submit', handleLoanApplicationSubmit);
+            document.getElementById('loanType').addEventListener('change', updateLoanSummary);
+            document.getElementById('loanAmount').addEventListener('input', updateLoanSummary);
+
+            // Payment form
+            document.getElementById('paymentForm').addEventListener('submit', handlePaymentSubmit);
+
+            // File upload drag and drop
+            setupFileUpload();
+        }
+
+        // Form Handlers
+        function handleLoginSubmit(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            const user = appState.users.find(u => 
+                (u.email === username || u.nationalId === username || u.id === username) && 
+                u.password === password && 
+                u.isActive
+            );
+
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                showAlert('loginAlert', 'Login successful! Redirecting...', 'success');
+                
+                setTimeout(() => {
+                    closeModal('loginModal');
+                    updateUIForLoggedInUser();
+                    renderNavigation();
+                    switchTab('dashboard');
+                }, 1500);
+                
+                // Log notification
+                logNotification('User Login', `${user.fullName} logged in`, user.id);
+            } else {
+                showAlert('loginAlert', 'Invalid username or password.', 'error');
+            }
+        }
+
+        function handleSignUpSubmit(e) {
+            e.preventDefault();
+            
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                dateOfBirth: document.getElementById('dateOfBirth').value,
+                phoneNumber: document.getElementById('phoneNumber').value,
+                email: document.getElementById('email').value,
+                nationalId: document.getElementById('nationalId').value,
+                password: document.getElementById('signUpPassword').value,
+                confirmPassword: document.getElementById('confirmPassword').value,
+                loginType: document.getElementById('loginType').value,
+                webMasterPassword: document.getElementById('webMasterPassword').value
+            };
+
+            // Validate age
+            const birthDate = new Date(formData.dateOfBirth);
+            const today = new Date();
+            const age = today.getFullYear() - birthDate.getFullYear();
+            
+            if (age < 18 || age > 59) {
+                showAlert('signUpAlert', 'You are not within the eligible age range (18-59 years).', 'error');
+                return;
+            }
+
+            // Validate password match
+            if (formData.password !== formData.confirmPassword) {
+                showAlert('signUpAlert', 'Passwords do not match.', 'error');
+                return;
+            }
+
+            // Check if user already exists
+            if (appState.users.find(user => user.email === formData.email || user.nationalId === formData.nationalId)) {
+                showAlert('signUpAlert', 'User with this email or National ID already exists.', 'error');
+                return;
+            }
+
+            // Handle Web Master registration
+            if (formData.loginType === 'Web Master') {
+                if (formData.webMasterPassword !== '123456789') {
+                    showAlert('signUpAlert', 'Incorrect Web Master password.', 'error');
+                    return;
+                }
+                
+                // Create Web Master account directly
+                const newUser = {
+                    id: generateUniqueId(),
+                    ...formData,
+                    role: 'Web Master',
+                    registrationDate: new Date().toISOString(),
+                    registrationFeePaid: true,
+                    isActive: true
+                };
+                
+                appState.users.push(newUser);
+                saveToStorage('fedhaUsers', appState.users);
+                
+                currentUser = newUser;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                
+                showAlert('signUpAlert', 'Web Master account created successfully! Redirecting...', 'success');
+                setTimeout(() => {
+                    closeModal('signUpModal');
+                    updateUIForLoggedInUser();
+                    renderNavigation();
+                    switchTab('dashboard');
+                }, 2000);
+                
+                logNotification('New Web Master', `${newUser.fullName} registered as Web Master`, newUser.id);
+                return;
+            }
+
+            // Handle Member registration - require M-Pesa payment
+            closeModal('signUpModal');
+            window.pendingRegistration = formData;
+            document.getElementById('mpesaAmount').textContent = '1,000';
+            document.getElementById('mpesaPurpose').textContent = 'Registration Fee';
+            showMpesaPayment();
+        }
+
+        function showMpesaPayment() {
+            showModal('mpesaModal');
+            document.getElementById('mpesaPhone').value = window.pendingRegistration.phoneNumber;
+        }
+
+        function processMpesaPayment() {
+            const mpesaPhone = document.getElementById('mpesaPhone').value;
+            
+            if (!mpesaPhone) {
+                showAlert('mpesaAlert', 'Please enter M-Pesa phone number.', 'error');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('mpesaContent').style.display = 'none';
+            document.getElementById('mpesaLoading').style.display = 'block';
+
+            // Simulate M-Pesa payment process
+            setTimeout(() => {
+                const paymentSuccess = Math.random() > 0.2; // 80% success rate
+
+                if (paymentSuccess) {
+                    if (window.pendingRegistration) {
+                        // Complete registration
+                        const newUser = {
+                            id: generateUniqueId(),
+                            ...window.pendingRegistration,
+                            role: 'Member',
+                            registrationDate: new Date().toISOString(),
+                            registrationFeePaid: true,
+                            isActive: true,
+                            mpesaPhone: mpesaPhone
+                        };
+
+                        appState.users.push(newUser);
+                        saveToStorage('fedhaUsers', appState.users);
+
+                        currentUser = newUser;
+                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
+                        logNotification('New Member Registration', `${newUser.fullName} completed registration`, newUser.id);
+                    } else if (window.pendingPayment) {
+                        // Process payment
+                        processPayment(currentUser.id, window.pendingPayment.type, window.pendingPayment.amount);
+                    }
+
+                    showAlert('mpesaAlert', 'Payment successful!', 'success');
+                    
+                    setTimeout(() => {
+                        closeModal('mpesaModal');
+                        if (window.pendingRegistration) {
+                            updateUIForLoggedInUser();
+                            renderNavigation();
+                            switchTab('dashboard');
+                            delete window.pendingRegistration;
+                        } else if (window.pendingPayment) {
+                            closeModal('paymentModal');
+                            loadTabContent('banking');
+                            delete window.pendingPayment;
+                        }
+                    }, 2000);
+                } else {
+                    showAlert('mpesaAlert', 'Payment failed. Please try again.', 'error');
+                    document.getElementById('mpesaContent').style.display = 'block';
+                }
+                
+                document.getElementById('mpesaLoading').style.display = 'none';
+            }, 3000);
+        }
+
+        function handleForgotPasswordSubmit(e) {
+            e.preventDefault();
+            
+            const phone = document.getElementById('resetPhone').value;
+            const email = document.getElementById('resetEmail').value;
+
+            const user = appState.users.find(u => u.phoneNumber === phone && u.email === email);
+
+            if (user) {
+                const phoneCode = Math.floor(10000 + Math.random() * 90000);
+                const emailCode = Math.floor(10000 + Math.random() * 90000);
+                
+                showAlert('forgotPasswordAlert', 
+                    `Reset codes sent!<br>Phone code: ${phoneCode}<br>Email code: ${emailCode}<br>(Demo: Use these codes to reset)`, 
+                    'success'
+                );
+                
+                window.resetCodes = { phoneCode, emailCode, userId: user.id };
+            } else {
+                showAlert('forgotPasswordAlert', 'No user found with this phone and email combination.', 'error');
+            }
+        }
+
+        function handleContactFormSubmit(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const message = document.getElementById('contactMessage').value;
+
+            // Simulate sending email
+            showAlert('', 'Your message has been sent successfully. We will get back to you shortly.', 'success');
+            
+            // Log notification for admins
+            logNotification('Contact Form', `New message from ${name} (${email}): ${message.substring(0, 100)}...`);
+            
+            // Reset form
+            document.getElementById('contactForm').reset();
+        }
+
+        function handleNewsPostSubmit(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('newsTitle').value;
+            const content = document.getElementById('newsContent').value;
+
+            const newPost = {
+                id: generateUniqueId(),
+                title: title,
+                content: content,
+                datePublished: new Date().toISOString(),
+                authorId: currentUser.id
+            };
+
+            appState.newsEvents.push(newPost);
+            saveToStorage('fedhaNewsEvents', appState.newsEvents);
+
+            showAlert('newsPostAlert', 'Post published successfully!', 'success');
+            
+            setTimeout(() => {
+                closeModal('newsPostModal');
+                switchTab('news');
+                document.getElementById('newsPostForm').reset();
+            }, 1500);
+
+            logNotification('News Published', `New post: ${title}`, currentUser.id);
+        }
+
+        function handleDocumentUploadSubmit(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('documentTitle').value;
+            const file = document.getElementById('documentFile').files[0];
+
+            if (!title || !file) {
+                showAlert('documentUploadAlert', 'Please provide a title and select a file.', 'error');
+                return;
+            }
+
+            // Simulate file upload
+            const newDocument = {
+                id: generateUniqueId(),
+                title: title,
+                fileName: file.name,
+                fileSize: file.size,
+                dateUploaded: new Date().toISOString(),
+                uploadedBy: currentUser.id,
+                fileUrl: URL.createObjectURL(file) // For demo purposes
+            };
+
+            appState.documents.push(newDocument);
+            saveToStorage('fedhaDocuments', appState.documents);
+
+            showAlert('documentUploadAlert', 'Document uploaded successfully!', 'success');
+            
+            setTimeout(() => {
+                closeModal('documentUploadModal');
+                switchTab('downloads');
+                document.getElementById('documentUploadForm').reset();
+            }, 1500);
+
+            logNotification('Document Upload', `New document: ${title}`, currentUser.id);
+        }
+
+        function handleJobPostSubmit(e) {
+            e.preventDefault();
+            
+            const jobTitle = document.getElementById('jobTitle').value;
+            const description = document.getElementById('jobDescription').value;
+            const deadline = document.getElementById('applicationDeadline').value;
+
+            const newJob = {
+                id: generateUniqueId(),
+                jobTitle: jobTitle,
+                description: description,
+                datePosted: new Date().toISOString(),
+                applicationDeadline: deadline,
+                postedBy: currentUser.id
+            };
+
+            appState.careers.push(newJob);
+            saveToStorage('fedhaCareers', appState.careers);
+
+            showAlert('jobPostAlert', 'Job post published successfully!', 'success');
+            
+            setTimeout(() => {
+                closeModal('jobPostModal');
+                switchTab('careers');
+                document.getElementById('jobPostForm').reset();
+            }, 1500);
+
+            logNotification('Job Posted', `New job: ${jobTitle}`, currentUser.id);
+        }
+
+        function handleTenderPostSubmit(e) {
+            e.preventDefault();
+            
+            const tenderTitle = document.getElementById('tenderTitle').value;
+            const description = document.getElementById('tenderDescription').value;
+            const deadline = document.getElementById('submissionDeadline').value;
+
+            const newTender = {
+                id: generateUniqueId(),
+                tenderTitle: tenderTitle,
+                description: description,
+                datePosted: new Date().toISOString(),
+                submissionDeadline: deadline,
+                postedBy: currentUser.id
+            };
+
+            appState.tenders.push(newTender);
+            saveToStorage('fedhaTenders', appState.tenders);
+
+            showAlert('tenderPostAlert', 'Tender post published successfully!', 'success');
+            
+            setTimeout(() => {
+                closeModal('tenderPostModal');
+                switchTab('tenders');
+                document.getElementById('tenderPostForm').reset();
+            }, 1500);
+
+            logNotification('Tender Posted', `New tender: ${tenderTitle}`, currentUser.id);
+        }
+
+        function handleContactUpdateSubmit(e) {
+            e.preventDefault();
+            
+            const physicalAddress = document.getElementById('physicalAddress').value;
+            const phoneNumber = document.getElementById('phoneContact').value;
+            const emailAddress = document.getElementById('emailContact').value;
+
+            appState.contactInfo = {
+                physicalAddress: physicalAddress,
+                phoneNumber: phoneNumber,
+                emailAddress: emailAddress,
+                lastUpdated: new Date().toISOString(),
+                updatedBy: currentUser.id
+            };
+
+            saveToStorage('fedhaContactInfo', appState.contactInfo);
+
+            showAlert('contactUpdateAlert', 'Contact details updated successfully!', 'success');
+            
+            setTimeout(() => {
+                closeModal('contactUpdateModal');
+                switchTab('contact');
+            }, 1500);
+
+            logNotification('Contact Updated', 'Contact information updated', currentUser.id);
+        }
+
+        function handleLoanApplicationSubmit(e) {
+            e.preventDefault();
+            
+            const loanType = document.getElementById('loanType').value;
+            const loanAmount = parseFloat(document.getElementById('loanAmount').value);
+            const loanPurpose = document.getElementById('loanPurpose').value;
+
+            // Check eligibility
+            if (!checkLoanEligibility(currentUser.id)) {
+                showAlert('loanApplicationAlert', 'You are not yet eligible for a loan. You must contribute for at least 6 consecutive months.', 'error');
+                return;
+            }
+
+            // Calculate loan details
+            const memberShares = appState.shares.filter(s => s.memberId === currentUser.id);
+            const totalShares = memberShares.reduce((sum, share) => sum + share.amount, 0);
+            const loanConfig = loanTypes[loanType];
+            const maxLoan = totalShares * loanConfig.multiplier;
+
+            if (loanAmount > maxLoan) {
+                showAlert('loanApplicationAlert', `Desired amount exceeds your maximum qualified loan of KSh ${maxLoan.toLocaleString()}.`, 'error');
+                return;
+            }
+
+            // Create loan application
+            const newLoan = {
+                id: generateUniqueId(),
+                memberId: currentUser.id,
+                type: loanType,
+                amount: loanAmount,
+                purpose: loanPurpose,
+                outstandingBalance: loanAmount,
+                monthlyPayment: calculateMonthlyPayment(loanAmount, loanConfig),
+                applicationDate: new Date().toISOString(),
+                status: 'Pending',
+                interestRate: loanConfig.rate,
+                repaymentPeriod: loanConfig.periodMonths
+            };
+
+            appState.loans.push(newLoan);
+            saveToStorage('fedhaLoans', appState.loans);
+
+            showAlert('loanApplicationAlert', 'Your loan application has been submitted for review.', 'success');
+            
+            setTimeout(() => {
+                closeModal('loanApplicationModal');
+                switchTab('banking');
+                document.getElementById('loanApplicationForm').reset();
+            }, 2000);
+
+            logNotification('Loan Application', `${currentUser.fullName} applied for ${loanType} loan of KSh ${loanAmount.toLocaleString()}`, currentUser.id);
+        }
+
+        function handlePaymentSubmit(e) {
+            e.preventDefault();
+            
+            const paymentType = document.getElementById('paymentType').value;
+            const paymentAmount = parseFloat(document.getElementById('paymentAmount').value);
+            const paymentPhone = document.getElementById('paymentPhone').value;
+
+            // Check for overdue payments (simplified)
+            const overdueLoans = appState.loans.filter(l => l.memberId === currentUser.id && l.status === 'Overdue');
+            if (overdueLoans.length > 0 && paymentType !== 'late_payment_fee') {
+                showAlert('paymentAlert', 'You have an overdue payment. Please pay the Late Payment Fee first.', 'error');
+                return;
+            }
+
+            // Store payment details and redirect to M-Pesa
+            window.pendingPayment = {
+                type: paymentType,
+                amount: paymentAmount,
+                phone: paymentPhone
+            };
+
+            closeModal('paymentModal');
+            document.getElementById('mpesaAmount').textContent = paymentAmount.toLocaleString();
+            document.getElementById('mpesaPurpose').textContent = getPaymentTypeLabel(paymentType);
+            document.getElementById('mpesaPhone').value = paymentPhone;
+            showModal('mpesaModal');
+        }
+
+        // Utility Functions
+        function generateUniqueId() {
+            return 'FEDHA-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+        }
+
+        function saveToStorage(key, data) {
+            localStorage.setItem(key, JSON.stringify(data));
+        }
+
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+            
+            // Populate forms with current data if needed
+            if (modalId === 'contactUpdateModal') {
+                document.getElementById('physicalAddress').value = appState.contactInfo.physicalAddress;
+                document.getElementById('phoneContact').value = appState.contactInfo.phoneNumber;
+                document.getElementById('emailContact').value = appState.contactInfo.emailAddress;
+            }
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            clearAlerts();
+        }
+
+        function showAlert(elementId, message, type) {
+            if (elementId) {
+                const alertElement = document.getElementById(elementId);
+                if (alertElement) {
+                    alertElement.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+                }
+            } else {
+                // Show global alert
+                const alertDiv = document.createElement('div');
+                alertDiv.className = `alert alert-${type}`;
+                alertDiv.innerHTML = message;
+                alertDiv.style.position = 'fixed';
+                alertDiv.style.top = '20px';
+                alertDiv.style.right = '20px';
+                alertDiv.style.zIndex = '3000';
+                alertDiv.style.maxWidth = '400px';
+                
+                document.body.appendChild(alertDiv);
+                
+                setTimeout(() => {
+                    if (document.body.contains(alertDiv)) {
+                        document.body.removeChild(alertDiv);
+                    }
+                }, 5000);
+            }
+        }
+
+        function clearAlerts() {
+            document.querySelectorAll('[id$="Alert"]').forEach(alert => {
+                alert.innerHTML = '';
+            });
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+        }
+
+        function getUserName(userId) {
+            const user = appState.users.find(u => u.id === userId);
+            return user ? user.fullName : 'Unknown User';
+        }
+
+        function checkLoanEligibility(memberId) {
+            const memberShares = appState.shares.filter(s => s.memberId === memberId);
+            if (memberShares.length < 6) return false;
+
+            // Check for 6 consecutive months of contributions >= 500
+            const sortedShares = memberShares.sort((a, b) => new Date(b.date) - new Date(a.date));
+            let consecutiveMonths = 0;
+            
+            for (let i = 0; i < Math.min(6, sortedShares.length); i++) {
+                if (sortedShares[i].amount >= 500) {
+                    consecutiveMonths++;
+                } else {
+                    break;
+                }
+            }
+
+            return consecutiveMonths >= 6;
+        }
+
+        function calculateDividends(memberId) {
+            // Simplified dividend calculation
+            const memberShares = appState.shares.filter(s => s.memberId === memberId);
+            const totalMemberShares = memberShares.reduce((sum, s) => sum + s.amount, 0);
+            const totalAllShares = appState.shares.reduce((sum, s) => sum + s.amount, 0);
+            
+            if (totalAllShares === 0) return 0;
+            
+            // Assuming annual revenue of 10% of total loans and deposits
+            const totalLoans = appState.loans.reduce((sum, l) => sum + l.amount, 0);
+            const totalDeposits = appState.fixedDeposits.reduce((sum, d) => sum + d.amount, 0);
+            const annualRevenue = (totalLoans + totalDeposits) * 0.1;
+            const dividendPool = annualRevenue * 0.9; // 90% after 10% office expenses
+            
+            return (totalMemberShares / totalAllShares) * dividendPool;
+        }
+
+        function calculateMonthlyPayment(loanAmount, loanConfig) {
+            const totalInterest = loanAmount * loanConfig.rate * loanConfig.periodMonths;
+            const totalRepayment = loanAmount + totalInterest;
+            return totalRepayment / loanConfig.periodMonths;
+        }
+
+        function calculateMaturityDate(depositDate) {
+            const date = new Date(depositDate);
+            date.setFullYear(date.getFullYear() + 1); // 1 year maturity
+            return formatDate(date.toISOString());
+        }
+
+        function getPaymentTypeLabel(paymentType) {
+            const labels = {
+                'shares': 'Shares Contribution',
+                'loan_principal': 'Loan Repayment (Principal)',
+                'loan_interest': 'Loan Repayment (Interest)',
+                'full_settlement': 'Full Loan Settlement',
+                'fixed_deposit': 'Fixed Deposit',
+                'guarantor_repayment': "Guarantor's Repayment",
+                'application_fee': 'Loan Application Fee',
+                'late_payment_fee': 'Late Payment Fee',
+                'membership_update_fee': 'Membership Update Fee',
+                'agm_fee': 'Annual General Meeting (AGM) Fee'
+            };
+            return labels[paymentType] || paymentType;
+        }
+
+        function processPayment(memberId, paymentType, amount) {
+            const timestamp = new Date().toISOString();
+            
+            switch(paymentType) {
+                case 'shares':
+                    appState.shares.push({
+                        id: generateUniqueId(),
+                        memberId: memberId,
+                        amount: amount,
+                        date: timestamp
+                    });
+                    saveToStorage('fedhaShares', appState.shares);
+                    break;
+                    
+                case 'fixed_deposit':
+                    appState.fixedDeposits.push({
+                        id: generateUniqueId(),
+                        memberId: memberId,
+                        amount: amount,
+                        date: timestamp
+                    });
+                    saveToStorage('fedhaFixedDeposits', appState.fixedDeposits);
+                    break;
+                    
+                case 'loan_principal':
+                case 'loan_interest':
+                    // Update loan balance
+                    const memberLoans = appState.loans.filter(l => l.memberId === memberId && l.status === 'Active');
+                    if (memberLoans.length > 0) {
+                        memberLoans[0].outstandingBalance = Math.max(0, memberLoans[0].outstandingBalance - amount);
+                        if (memberLoans[0].outstandingBalance === 0) {
+                            memberLoans[0].status = 'Completed';
+                        }
+                        saveToStorage('fedhaLoans', appState.loans);
+                    }
+                    break;
+            }
+            
+            logNotification('Payment Received', `Payment of KSh ${amount.toLocaleString()} for ${getPaymentTypeLabel(paymentType)}`, memberId);
+        }
+
+        function updateLoanSummary() {
+            const loanType = document.getElementById('loanType').value;
+            const loanAmount = parseFloat(document.getElementById('loanAmount').value) || 0;
+            const summaryDiv = document.getElementById('loanSummary');
+            
+            if (!loanType || loanAmount === 0) {
+                summaryDiv.style.display = 'none';
+                return;
+            }
+
+            const memberShares = appState.shares.filter(s => s.memberId === currentUser.id);
+            const totalShares = memberShares.reduce((sum, share) => sum + share.amount, 0);
+            const loanConfig = loanTypes[loanType];
+            const maxLoan = totalShares * loanConfig.multiplier;
+            
+            if (loanAmount > maxLoan) {
+                summaryDiv.innerHTML = `<strong>Error:</strong> Maximum loan for ${loanType} is KSh ${maxLoan.toLocaleString()}`;
+                summaryDiv.className = 'alert alert-error';
+            } else {
+                const monthlyPayment = calculateMonthlyPayment(loanAmount, loanConfig);
+                const totalInterest = loanAmount * loanConfig.rate * loanConfig.periodMonths;
+                
+                summaryDiv.innerHTML = `
+                    <strong>Loan Summary:</strong><br>
+                    Amount: KSh ${loanAmount.toLocaleString()}<br>
+                    Monthly Payment: KSh ${monthlyPayment.toLocaleString()}<br>
+                    Total Interest: KSh ${totalInterest.toLocaleString()}<br>
+                    Repayment Period: ${loanConfig.periodMonths} months
+                `;
+                summaryDiv.className = 'alert alert-info';
+            }
+            
+            summaryDiv.style.display = 'block';
+        }
+
+        function logNotification(eventType, details, memberId = null) {
+            const notification = {
+                id: generateUniqueId(),
+                eventType: eventType,
+                details: details,
+                timestamp: new Date().toISOString(),
+                isRead: false,
+                memberId: memberId
+            };
+            
+            appState.notifications.push(notification);
+            saveToStorage('fedhaNotifications', appState.notifications);
+        }
+
+        function markNotificationAsRead(notificationId) {
+            const notification = appState.notifications.find(n => n.id === notificationId);
+            if (notification) {
+                notification.isRead = true;
+                saveToStorage('fedhaNotifications', appState.notifications);
+                renderNotifications();
+            }
+        }
+
+        function markAllNotificationsAsRead() {
+            appState.notifications.forEach(n => n.isRead = true);
+            saveToStorage('fedhaNotifications', appState.notifications);
+            renderNotifications();
+        }
+
+        function getRecentActivity() {
+            const recentNotifications = appState.notifications
+                .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+                .slice(0, 5);
+            
+            if (recentNotifications.length === 0) {
+                return '<p>No recent activity.</p>';
+            }
+            
+            return recentNotifications.map(n => `
+                <div style="padding: 0.5rem; border-bottom: 1px solid #eee;">
+                    <strong>${n.eventType}:</strong> ${n.details}<br>
+                    <small style="color: #7f8c8d;">${formatDate(n.timestamp)}</small>
+                </div>
+            `).join('');
+        }
+
+        function getThisMonthPayments() {
+            const thisMonth = new Date().getMonth();
+            const thisYear = new Date().getFullYear();
+            
+            return appState.shares
+                .filter(s => {
+                    const shareDate = new Date(s.date);
+                    return shareDate.getMonth() === thisMonth && shareDate.getFullYear() === thisYear;
+                })
+                .reduce((sum, s) => sum + s.amount, 0);
+        }
+
+        // Admin functions
+        function viewMemberDetails(memberId) {
+            const member = appState.users.find(u => u.id === memberId);
+            if (!member) return;
+            
+            const memberShares = appState.shares.filter(s => s.memberId === memberId);
+            const memberLoans = appState.loans.filter(l => l.memberId === memberId);
+            const totalShares = memberShares.reduce((sum, s) => sum + s.amount, 0);
+            
+            document.getElementById('memberDetailsContent').innerHTML = `
+                <div class="form-grid">
+                    <div class="card">
+                        <h3>Personal Information</h3>
+                        <p><strong>Full Name:</strong> ${member.fullName}</p>
+                        <p><strong>Member ID:</strong> ${member.id}</p>
+                        <p><strong>Email:</strong> ${member.email}</p>
+                        <p><strong>Phone:</strong> ${member.phoneNumber}</p>
+                        <p><strong>National ID:</strong> ${member.nationalId}</p>
+                        <p><strong>Registration Date:</strong> ${formatDate(member.registrationDate)}</p>
+                        <p><strong>Status:</strong> ${member.isActive ? 'Active' : 'Inactive'}</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Financial Summary</h3>
+                        <p><strong>Registration Fee:</strong> ${member.registrationFeePaid ? 'Paid' : 'Pending'}</p>
+                        <p><strong>Total Shares:</strong> KSh ${totalShares.toLocaleString()}</p>
+                        <p><strong>Number of Loans:</strong> ${memberLoans.length}</p>
+                        <p><strong>Loan Eligibility:</strong> ${checkLoanEligibility(memberId) ? 'Eligible' : 'Not Eligible'}</p>
+                        <p><strong>Current Role:</strong> ${member.role || 'Member'}</p>
+                    </div>
+                </div>
+                
+                ${currentUser.role === 'Web Master' ? `
+                    <div class="section">
+                        <h3>Admin Actions</h3>
+                        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                            <button class="btn btn-primary" onclick="promoteMember('${memberId}')">
+                                <i class="fas fa-user-cog"></i> Promote to Admin
+                            </button>
+                            <button class="btn btn-warning" onclick="demoteMember('${memberId}')">
+                                <i class="fas fa-user-minus"></i> Remove Admin Role
+                            </button>
+                            <button class="btn btn-danger" onclick="signOutMember('${memberId}')">
+                                <i class="fas fa-user-times"></i> Sign Out Member
+                            </button>
+                        </div>
+                    </div>
+                ` : ''}
+            `;
+            
+            showModal('memberDetailsModal');
+        }
+
+        function promoteMember(memberId) {
+            if (currentUser.role !== 'Web Master') {
+                alert('Only Web Master can promote members.');
+                return;
+            }
+            
+            const roles = ['Admin', 'Hon. Treasurer', 'Hon. Secretary', 'Loans and Savings Director', 'Welfare Chairperson'];
+            const selectedRole = prompt(`Select role for promotion:\n${roles.map((role, index) => `${index + 1}. ${role}`).join('\n')}\nEnter number:`);
+            
+            if (selectedRole && roles[selectedRole - 1]) {
+                const member = appState.users.find(u => u.id === memberId);
+                if (member) {
+                    member.role = 'Admin';
+                    member.adminRole = roles[selectedRole - 1];
+                    saveToStorage('fedhaUsers', appState.users);
+                    
+                    alert(`Member promoted to ${roles[selectedRole - 1]} successfully!`);
+                    logNotification('Member Promotion', `${member.fullName} promoted to ${roles[selectedRole - 1]}`, memberId);
+                    
+                    closeModal('memberDetailsModal');
+                    renderMembership();
+                }
+            }
+        }
+
+        function demoteMember(memberId) {
+            if (currentUser.role !== 'Web Master') {
+                alert('Only Web Master can demote admins.');
+                return;
+            }
+            
+            const member = appState.users.find(u => u.id === memberId);
+            if (member && member.role === 'Admin') {
+                member.role = 'Member';
+                delete member.adminRole;
+                saveToStorage('fedhaUsers', appState.users);
+                
+                alert('Admin role removed successfully!');
+                logNotification('Member Demotion', `${member.fullName} demoted to regular member`, memberId);
+                
+                closeModal('memberDetailsModal');
+                renderMembership();
+            }
+        }
+
+        function signOutMember(memberId) {
+            if (confirm('WARNING: This will permanently sign out the member. Are you sure?')) {
+                const member = appState.users.find(u => u.id === memberId);
+                if (member) {
+                    // Check for outstanding loans and guarantees
+                    const memberLoans = appState.loans.filter(l => l.memberId === memberId && l.outstandingBalance > 0);
+                    const memberGuarantees = appState.guarantors.filter(g => g.memberId === memberId);
+                    
+                    if (memberLoans.length > 0) {
+                        alert('Cannot sign out. Member has outstanding loans.');
+                        return;
+                    }
+                    
+                    if (memberGuarantees.length > 0) {
+                        const unpaidGuarantees = memberGuarantees.filter(g => {
+                            const loan = appState.loans.find(l => l.id === g.loanId);
+                            return loan && loan.outstandingBalance > 0;
+                        });
+                        
+                        if (unpaidGuarantees.length > 0) {
+                            alert('Cannot sign out. Member has guaranteed loans that are not yet settled.');
+                            return;
+                        }
+                    }
+                    
+                    // Process sign out
+                    member.isActive = false;
+                    member.signOutDate = new Date().toISOString();
+                    saveToStorage('fedhaUsers', appState.users);
+                    
+                    alert('Member account has been permanently signed out.');
+                    logNotification('Member Sign Out', `${member.fullName} account permanently signed out`, memberId);
+                    
+                    closeModal('memberDetailsModal');
+                    renderMembership();
+                }
+            }
+        }
+
+        // Logout and Sign Out handlers
+        function handleLogout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            
+            // Update UI
+            document.getElementById('authButtons').style.display = 'flex';
+            document.getElementById('userInfo').style.display = 'none';
+            
+            // Hide admin elements
+            document.querySelectorAll('.admin-only').forEach(el => {
+                el.classList.remove('show');
+            });
+            
+            renderNavigation();
+            switchTab('home');
+            
+            showAlert('', 'Logged out successfully!', 'success');
+        }
+
+        function handleSignOut() {
+            if (confirm('WARNING: Sign Out will permanently block your account. This action cannot be undone. Are you sure?')) {
+                if (currentUser) {
+                    // Mark user as inactive
+                    const userIndex = appState.users.findIndex(u => u.id === currentUser.id);
+                    if (userIndex !== -1) {
+                        appState.users[userIndex].isActive = false;
+                        appState.users[userIndex].signOutDate = new Date().toISOString();
+                        saveToStorage('fedhaUsers', appState.users);
+                    }
+                    
+                    logNotification('Account Sign Out', `${currentUser.fullName} permanently signed out`, currentUser.id);
+                    
+                    // Clear session
+                    handleLogout();
+                    
+                    alert('Your account has been permanently signed out and blocked.');
+                }
+            }
+        }
+
+        // Additional utility functions
+        function setupFileUpload() {
+            const fileUpload = document.querySelector('.file-upload');
+            const fileInput = document.getElementById('documentFile');
+            
+            if (fileUpload && fileInput) {
+                fileUpload.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.classList.add('dragover');
+                });
+                
+                fileUpload.addEventListener('dragleave', function() {
+                    this.classList.remove('dragover');
+                });
+                
+                fileUpload.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('dragover');
+                    
+                    if (e.dataTransfer.files.length > 0) {
+                        fileInput.files = e.dataTransfer.files;
+                    }
+                });
+            }
+        }
+
+        function showForgotPassword() {
+            closeModal('loginModal');
+            showModal('forgotPasswordModal');
+        }
+
+        function generateMembershipForm() {
+            // Generate membership registration form
+            const formContent = `
+                <h2>FEDHA SACCO GROUP MEMBERSHIP REGISTRATION FORM</h2>
+                <p><strong>Personal Information:</strong></p>
+                <p>Full Name: _________________________</p>
+                <p>Date of Birth: _________________________</p>
+                <p>National ID: _________________________</p>
+                <p>Phone Number: _________________________</p>
+                <p>Email Address: _________________________</p>
+                <p>Physical Address: _________________________</p>
+                <br>
+                <p><strong>Business Information:</strong></p>
+                <p>Business Name: _________________________</p>
+                <p>Business Type: _________________________</p>
+                <p>Business Location: _________________________</p>
+                <br>
+                <p><strong>Declaration:</strong></p>
+                <p>I declare that the information provided is accurate and I agree to the terms and conditions of Fedha SACCO Group membership.</p>
+                <p>Signature: _________________________ Date: _________________________</p>
+                <br>
+                <p><strong>Office Use Only:</strong></p>
+                <p>Registration Fee Paid: KSh 1,000 □</p>
+                <p>Member ID: _________________________</p>
+                <p>Date Processed: _________________________</p>
+            `;
+            
+            const newWindow = window.open();
+            newWindow.document.write(`
+                <html>
+                    <head>
+                        <title>Membership Registration Form</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; padding: 20px; }
+                            h2 { color: #27ae60; text-align: center; }
+                            p { margin: 10px 0; }
+                        </style>
+                    </head>
+                    <body>${formContent}</body>
+                </html>
+            `);
+            newWindow.document.close();
+            newWindow.print();
+        }
+
+        function generateLoanForm() {
+            // Generate loan application form
+            const formContent = `
+                <h2>FEDHA SACCO GROUP LOAN APPLICATION FORM</h2>
+                <p><strong>Applicant Information:</strong></p>
+                <p>Full Name: _________________________</p>
+                <p>Member ID: _________________________</p>
+                <p>Phone Number: _________________________</p>
+                <p>Email Address: _________________________</p>
+                <br>
+                <p><strong>Loan Details:</strong></p>
+                <p>Loan Type: □ Emergency □ Short □ Normal □ Development</p>
+                <p>Loan Amount Requested: KSh _________________________</p>
+                <p>Purpose of Loan: _________________________</p>
+                <p>Repayment Period: _________________________ months</p>
+                <br>
+                <p><strong>Guarantors:</strong></p>
+                <p>Guarantor 1: Name: _________________________ Member ID: _________________________</p>
+                <p>Guarantor 2: Name: _________________________ Member ID: _________________________</p>
+                <br>
+                <p><strong>Declaration:</strong></p>
+                <p>I declare that the information provided is accurate and I agree to repay the loan as per the agreed terms.</p>
+                <p>Signature: _________________________ Date: _________________________</p>
+                <br>
+                <p><strong>Office Use Only:</strong></p>
+                <p>Total Shares: KSh _________________________</p>
+                <p>Maximum Loan Qualified: KSh _________________________</p>
+                <p>Approved Amount: KSh _________________________</p>
+                <p>Monthly Repayment: KSh _________________________</p>
+                <p>Approval Date: _________________________</p>
+            `;
+            
+            const newWindow = window.open();
+            newWindow.document.write(`
+                <html>
+                    <head>
+                        <title>Loan Application Form</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; padding: 20px; }
+                            h2 { color: #27ae60; text-align: center; }
+                            p { margin: 10px 0; }
+                        </style>
+                    </head>
+                    <body>${formContent}</body>
+                </html>
+            `);
+            newWindow.document.close();
+            newWindow.print();
+        }
+
+        function downloadDocument(docId) {
+            const document = appState.documents.find(d => d.id === docId);
+            if (document && document.fileUrl) {
+                const link = document.createElement('a');
+                link.href = document.fileUrl;
+                link.download = document.fileName;
+                link.click();
+            } else {
+                alert('Document not found or unavailable for download.');
+            }
+        }
+
+        function downloadStatement() {
+            if (!currentUser) return;
+            
+            const memberShares = appState.shares.filter(s => s.memberId === currentUser.id);
+            const memberLoans = appState.loans.filter(l => l.memberId === currentUser.id);
+            const totalShares = memberShares.reduce((sum, s) => sum + s.amount, 0);
+            const outstandingLoans = memberLoans.reduce((sum, l) => sum + l.outstandingBalance, 0);
+            
+            const statementContent = `
+                <h2>FEDHA SACCO GROUP - MEMBER STATEMENT</h2>
+                <p><strong>Member Name:</strong> ${currentUser.fullName}</p>
+                <p><strong>Member ID:</strong> ${currentUser.id}</p>
+                <p><strong>Statement Date:</strong> ${formatDate(new Date().toISOString())}</p>
+                <hr>
+                <h3>FINANCIAL SUMMARY</h3>
+                <p><strong>Total Shares:</strong> KSh ${totalShares.toLocaleString()}</p>
+                <p><strong>Outstanding Loans:</strong> KSh ${outstandingLoans.toLocaleString()}</p>
+                <p><strong>Loan Eligibility:</strong> ${checkLoanEligibility(currentUser.id) ? 'Eligible' : 'Not Eligible'}</p>
+                <hr>
+                <h3>SHARE CONTRIBUTIONS</h3>
+                <table border="1" style="width: 100%; border-collapse: collapse;">
+                    <tr><th>Date</th><th>Amount</th><th>Running Total</th></tr>
+                    ${memberShares.map((share, index) => {
+                        const runningTotal = memberShares.slice(0, index + 1).reduce((sum, s) => sum + s.amount, 0);
+                        return `<tr><td>${formatDate(share.date)}</td><td>KSh ${share.amount.toLocaleString()}</td><td>KSh ${runningTotal.toLocaleString()}</td></tr>`;
+                    }).join('')}
+                </table>
+                <hr>
+                <h3>LOAN HISTORY</h3>
+                <table border="1" style="width: 100%; border-collapse: collapse;">
+                    <tr><th>Type</th><th>Amount</th><th>Outstanding</th><th>Status</th></tr>
+                    ${memberLoans.map(loan => 
+                        `<tr><td>${loan.type}</td><td>KSh ${loan.amount.toLocaleString()}</td><td>KSh ${loan.outstandingBalance.toLocaleString()}</td><td>${loan.status}</td></tr>`
+                    ).join('')}
+                </table>
+            `;
+            
+            const newWindow = window.open();
+            newWindow.document.write(`
+                <html>
+                    <head>
+                        <title>Member Statement</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; padding: 20px; }
+                            h2, h3 { color: #27ae60; }
+                            table { margin: 10px 0; }
+                            th { background-color: #27ae60; color: white; padding: 8px; }
+                            td { padding: 8px; }
+                        </style>
+                    </head>
+                    <body>${statementContent}</body>
+                </html>
+            `);
+            newWindow.document.close();
+            newWindow.print();
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
